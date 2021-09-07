@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseLocalTP>true</UseLocalTP>
+    <UseLocalFx>true</UseLocalFx>
+    <TargetFramework>net6</TargetFramework>
+
+    <TestFxRoot Condition="$(TestFxRoot) == ''">d:\git\hub\microsoft\testfx\</TestFxRoot>
+    <VSTestRoot Condition="$(VSTestRoot) == ''">d:\git\hub\microsoft\vstest\</VSTestRoot>
+  </PropertyGroup>
+
+  <!-- DO NOT EDIT AFTER THIS LINE -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <TestProject>true</TestProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TestFxArtifactsRoot>$(TestFxRoot)artifacts\$(Configuration)\</TestFxArtifactsRoot>
+    <VSTestArtifactsRoot>$(VSTestRoot)artifacts\$(Configuration)\</VSTestArtifactsRoot>
+
+    <FullFramework Condition=" '$(TargetFramework)' != 'net5' and '$(TargetFramework)' != 'net6' ">true</FullFramework>
+    <VSTestBinaries Condition=" '$(FullFramework)' == 'true' ">$(VSTestArtifactsRoot)net451\win7-x64\</VSTestBinaries>
+    <VSTestBinaries Condition=" '$(FullFramework)' != 'true' ">$(VSTestArtifactsRoot)netcoreapp2.1\</VSTestBinaries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="TestContainer" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TestPlatformVersion>16.11.0</TestPlatformVersion>
+    <MSTestVersion>2.2.6</MSTestVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(UseLocalTP) != 'true'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestPlatformVersion)" />
+    <PackageReference Include="Microsoft.TestPlatform.AdapterUtilities" Version="$(TestPlatformVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(UseLocalFx) != 'true'">
+    <PackageReference Include="MSTest.TestAdapter" Version="$(MSTestVersion)" />
+    <PackageReference Include="MSTest.TestFramework" Version="$(MSTestVersion)" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="$(UseLocalTP) == 'true'">
+    <Reference Include="Microsoft.TestPlatform.CoreUtilities">
+      <HintPath>$(VSTestBinaries)Microsoft.TestPlatform.CoreUtilities.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
+      <HintPath>$(VSTestBinaries)Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.TestPlatform.CommunicationUtilities">
+      <HintPath>$(VSTestBinaries)Microsoft.TestPlatform.CommunicationUtilities.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.TestPlatform.CrossPlatEngine">
+      <HintPath>$(VSTestBinaries)Microsoft.TestPlatform.CrossPlatEngine.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.TestPlatform.Utilities">
+      <HintPath>$(VSTestBinaries)Microsoft.TestPlatform.Utilities.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.TestPlatform.AdapterUtilities">
+      <HintPath Condition=" '$(FullFramework)' == 'true' ">$(VSTestArtifactsRoot)net45\Microsoft.TestPlatform.AdapterUtilities.dll</HintPath>
+      <HintPath Condition=" '$(FullFramework)' != 'true' ">$(VSTestArtifactsRoot)netstandard2.0\Microsoft.TestPlatform.AdapterUtilities.dll</HintPath>
+    </Reference>
+
+    <CopyDependency Condition=" '$(FullFramework)' != 'true' " Include="$(VSTestArtifactsRoot)\Microsoft.TestPlatform.TestHost\netcoreapp2.1\win7-x64\testhost.exe" />
+    <CopyDependency Condition=" '$(FullFramework)' != 'true' " Include="$(VSTestArtifactsRoot)\Microsoft.TestPlatform.TestHost\netcoreapp2.1\testhost.???" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(UseLocalFx) == 'true'">
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter">
+      <HintPath>$(TestFxArtifactsRoot)MSTest.CoreAdapter\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface">
+      <HintPath>$(TestFxArtifactsRoot)PlatformServices.Interface\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+      <HintPath>$(TestFxArtifactsRoot)MSTest.Core\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices" Condition=" '$(FullFramework)' == 'true' ">
+      <HintPath>$(TestFxArtifactsRoot)PlatformServices.Desktop\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions" Condition=" '$(FullFramework)' == 'true' ">
+      <HintPath>$(TestFxArtifactsRoot)Extension.Desktop\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+
+    <!-- not running under full framework -->
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices" Condition=" '$(FullFramework)' != 'true' ">
+      <HintPath>$(TestFxArtifactsRoot)PlatformServices.NetCore\netstandard1.5\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions" Condition=" '$(FullFramework)' != 'true' ">
+      <HintPath>$(TestFxArtifactsRoot)Extension.Core\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyMSBuildScriptsFiles" DependsOnTargets="CoreCompile" AfterTargets="CoreCompile">
+    <Copy SourceFiles="@(CopyDependency)"
+          DestinationFiles="@(CopyDependency->'$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="True" OverwriteReadOnlyFiles="True" Retries="3" RetryDelayMilliseconds="500"
+          UseHardlinksIfPossible="False" UseSymboliclinksIfPossible="False" ErrorIfLinkFails="False"
+          Condition="@(CopyDependency->Count()) > 0">
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
+    </Copy>
+  </Target>
+</Project>

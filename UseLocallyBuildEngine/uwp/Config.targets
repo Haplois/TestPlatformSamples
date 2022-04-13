@@ -1,0 +1,19 @@
+<Project>
+    <ItemGroup>
+        <PackageReference Remove="Microsoft.NET.Test.Sdk" />
+        <PackageReference Remove="MSTest.TestAdapter" />
+        <PackageReference Remove="MSTest.TestFramework" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(UseLocalTP) != 'true'">
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestPlatformVersion)" />
+    </ItemGroup>
+
+    <!-- This condition statement is not honored by MSBuild, so commenting it out. -->
+    <!-- 
+    <ItemGroup Condition="$(UseLocalFx) != 'true'">
+        <PackageReference Include="MSTest.TestAdapter" Version="$(MSTestVersion)" />
+        <PackageReference Include="MSTest.TestFramework" Version="$(MSTestVersion)" />
+    </ItemGroup>
+    -->
+</Project>

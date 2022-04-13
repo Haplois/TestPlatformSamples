@@ -1,0 +1,51 @@
+<Project>
+    <PropertyGroup>
+        <!-- When set to false, uncomment PackageReference blocks in Config.targets file. -->
+        <UseLocalFx>true</UseLocalFx>
+        <UseLocalTP>false</UseLocalTP>
+
+        <TestPlatformVersion>17.1.0</TestPlatformVersion>
+        <MSTestVersion>2.2.8</MSTestVersion>
+
+        <TestFxRoot Condition=" '$(TestFxRoot)' == '' ">d:\git\hub\microsoft\testfx\</TestFxRoot>
+        <TestFxArtifactsRoot>$(TestFxRoot)artifacts\$(Configuration)\</TestFxArtifactsRoot>
+    </PropertyGroup>
+
+    <ItemGroup Condition="$(UseLocalFx) == 'true'">
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)MSTest.CoreAdapter\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)PlatformServices.Interface\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)PlatformServices.Universal\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)Microsoft.TestPlatform.AdapterUtilities\uap10.0\Microsoft.TestPlatform.AdapterUtilities.dll">
+            <Link>Microsoft.TestPlatform.AdapterUtilities.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <None Include="@(TestAdapterContent)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(UseLocalFx) == 'true'">
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+            <HintPath>$(TestFxArtifactsRoot)MSTest.Core\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
+            <HintPath>$(TestFxArtifactsRoot)Extension.UWP\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

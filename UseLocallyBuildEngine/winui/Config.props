@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <UseLocalFx>true</UseLocalFx>
+        <UseLocalTP>true</UseLocalTP>
+
+        <TestPlatformVersion>17.1.0</TestPlatformVersion>
+        <MSTestVersion>2.2.8</MSTestVersion>
+
+        <TestFxRoot Condition=" '$(TestFxRoot)' == '' ">d:\git\hub\microsoft\testfx\</TestFxRoot>
+        <VSTestRoot Condition=" '$(VSTestRoot)' == '' ">d:\git\hub\haplois\-microsoft\vstest\</VSTestRoot>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildThisFileDirectory)\Dependencies.props" />
+</Project>

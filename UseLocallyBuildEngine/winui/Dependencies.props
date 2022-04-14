@@ -1,0 +1,91 @@
+<Project>
+    <PropertyGroup>
+        <TestFxArtifactsRoot>$(TestFxRoot)artifacts\$(Configuration)\</TestFxArtifactsRoot>
+        <VSTestArtifactsRoot>$(VSTestRoot)artifacts\$(Configuration)\</VSTestArtifactsRoot>
+        
+        <TestHostArtifactsRoot>$(VSTestArtifactsRoot)Microsoft.TestPlatform.TestHost\netcoreapp2.1\</TestHostArtifactsRoot>
+    </PropertyGroup>
+
+    <ItemGroup Condition=" '$(UseLocalTP)' != 'true' ">
+        <PackageReference Include="Microsoft.TestPlatform.TestHost" ExcludeAssets="build" Version="$(TestPlatformVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(UseLocalFx)' != 'true' ">
+        <PackageReference Include="MSTest.TestAdapter" Version="$(MSTestVersion)" />
+        <PackageReference Include="MSTest.TestFramework" Version="$(MSTestVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(UseLocalTP)' == 'true' ">
+        <Reference Include="Microsoft.TestPlatform.CommunicationUtilities">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.TestPlatform.CommunicationUtilities.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.TestPlatform.CoreUtilities">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.TestPlatform.CoreUtilities.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.TestPlatform.CrossPlatEngine">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.TestPlatform.CrossPlatEngine.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.TestPlatform.PlatformAbstractions">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.TestPlatform.PlatformAbstractions.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.TestPlatform.Utilities">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.TestPlatform.Utilities.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.Common">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.VisualStudio.TestPlatform.Common.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
+            <HintPath>$(TestHostArtifactsRoot)Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+        </Reference>
+
+        <Reference Include="testhost">
+            <HintPath>$(TestHostArtifactsRoot)testhost.dll</HintPath>
+        </Reference>
+
+        <CopyDependency Include="$(TestHostArtifactsRoot)testhost.deps.json" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(UseLocalFx)' == 'true' ">
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)MSTest.CoreAdapter\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)PlatformServices.Interface\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)PlatformServices.WinUI\net5.0-windows*\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll">
+            <Link>Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <TestAdapterContent Include="$(TestFxArtifactsRoot)Microsoft.TestPlatform.AdapterUtilities\netstandard2.0\Microsoft.TestPlatform.AdapterUtilities.dll">
+            <Link>Microsoft.TestPlatform.AdapterUtilities.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </TestAdapterContent>
+
+        <None Include="@(TestAdapterContent)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(UseLocalFx)' == 'true' ">
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+            <HintPath>$(TestFxArtifactsRoot)MSTest.Core\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+        </Reference>
+
+        <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
+            <HintPath>$(TestFxArtifactsRoot)Extension.WinUI\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

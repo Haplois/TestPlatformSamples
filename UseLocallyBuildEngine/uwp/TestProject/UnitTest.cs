@@ -1,6 +1,9 @@
 ﻿
 using System;
+using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 namespace TestProject
 {
@@ -9,6 +12,12 @@ namespace TestProject
     {
         [TestMethod]
         public void TestMethod1()
+        {
+            Assert.IsTrue('1' == 49);
+        }
+
+        [UITestMethod]
+        public void TestMethod2()
         {
             Assert.IsTrue('1' == 49);
         }

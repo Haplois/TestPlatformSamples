@@ -1,14 +1,19 @@
 <Project>
     <PropertyGroup>
-        <UseLocalFx>true</UseLocalFx>
+        <UseLocalFx>false</UseLocalFx>
         <UseLocalTP>true</UseLocalTP>
 
-        <TestPlatformVersion>17.1.0</TestPlatformVersion>
-        <MSTestVersion>2.2.8</MSTestVersion>
+        <TestPlatformVersion>17.1.0-release-20220113-05</TestPlatformVersion>
+        <MSTestVersion>5.0.7-dev</MSTestVersion>
 
         <TestFxRoot Condition=" '$(TestFxRoot)' == '' ">d:\git\hub\microsoft\testfx\</TestFxRoot>
         <VSTestRoot Condition=" '$(VSTestRoot)' == '' ">d:\git\hub\haplois\-microsoft\vstest\</VSTestRoot>
+        <GenerateProgramFile>false</GenerateProgramFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestPlatformVersion)" />
+    </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)\Dependencies.props" />
 </Project>

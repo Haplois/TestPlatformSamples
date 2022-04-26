@@ -1,11 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <UseLocalTP>true</UseLocalTP>
+    <UseLocalTP>false</UseLocalTP>
     <UseLocalFx>true</UseLocalFx>
     <TargetFramework>net6</TargetFramework>
 
     <TestFxRoot Condition="$(TestFxRoot) == ''">d:\git\hub\microsoft\testfx\</TestFxRoot>
     <VSTestRoot Condition="$(VSTestRoot) == ''">d:\git\hub\microsoft\vstest\</VSTestRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+      <TestPlatformVersion>16.11.0</TestPlatformVersion>
+      <MSTestVersion>2.2.6</MSTestVersion>
   </PropertyGroup>
 
   <!-- DO NOT EDIT AFTER THIS LINE -->
@@ -31,11 +36,6 @@
   <ItemGroup>
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <TestPlatformVersion>16.11.0</TestPlatformVersion>
-    <MSTestVersion>2.2.6</MSTestVersion>
-  </PropertyGroup>
 
   <ItemGroup Condition="$(UseLocalTP) != 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestPlatformVersion)" />
